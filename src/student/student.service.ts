@@ -14,7 +14,7 @@ export class StudentService {
   ) {}
 
   async getStudents(page: number, keyword: string) {
-    const QUERY_LIMIT = DATABASE_QUERY.STUDENT.LIMIT_PER_QUERY;
+    const QUERY_LIMIT = DATABASE_QUERY.QUERY.LIMIT_PER_QUERY;
     const skip = UtilityFunctions.calculateDatabaseQueryOffset(page, QUERY_LIMIT);
 
     const students = await this.studentRepository.find({

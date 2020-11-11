@@ -4,7 +4,7 @@ import { getStudentDTO, createStudentDTO } from './student.dto';
 
 @Controller('student')
 export class StudentController {
-  constructor(private studentService: StudentService) {}
+  constructor(private studentService: StudentService) { }
 
   @Get('/')
   getStudents(@Query() { page = 1, keyword = '' }: getStudentDTO) {
