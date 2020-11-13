@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner, getConnection } from 'typeorm';
-import { StudentEntity } from '../src/student/student.entity';
+import { StudentEntity } from '../src/modules/student/student.entity';
 import * as students from './students.json';
 
 export class students1579454812389 implements MigrationInterface {
