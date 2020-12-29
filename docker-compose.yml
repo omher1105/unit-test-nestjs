@@ -1,11 +1,11 @@
 version: '3'
 services:
   mariadb:
-    image: mariadb:latest
+    image: imageConfig
     volumes:
-      - /tmp/dc-test-db:/var/lib/mysql
+      - volumesConfig
     ports:
-      - '3306:3306'
+      - 'portConfig:portConfig'
     environment:
-      MYSQL_ROOT_PASSWORD: 12345
-      MYSQL_DATABASE: RENAMEDATABASE
+      nameVarPassword: passwordConfig
+      nameVarDatabase: databaseConfig
