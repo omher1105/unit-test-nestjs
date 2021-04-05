@@ -6,7 +6,7 @@
   "password": "passwordConfig",
   "database": "nameConfigDatabase",
   "entities": ["dist/**/*.entity.js"],
-  "synchronize": true,
+  "synchronize": false,
   "migrations": ["dist/migration/*.js"],
   "cli": {
     "migrationsDir": "migration"
