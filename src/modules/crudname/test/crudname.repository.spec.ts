@@ -2,7 +2,7 @@ import {Test} from '@nestjs/testing';
 import {CrudnameEntity} from '../crudname.entity';
 import {FilterQuery, Like, Repository} from 'typeorm';
 import {getRepositoryToken} from '@nestjs/typeorm';
-import {crudnameStub, responseDataStub} from './stubs/crudname.stub';
+import {crudnameStub, queryFilters, responseDataStub} from './stubs/crudname.stub';
 import {CrudnameService} from '../crudname.service';
 import {CreateCrudnameDTO, CrudnameDTO, ResponseData} from '../crudname.dto';
 import * as DATABASE_QUERY from '../../../constraints/DATABASE_QUERY.json';
@@ -11,6 +11,7 @@ import {UtilityFunctions} from '../../../helpers/utility';
 describe('crudname repository', () => {
 
     let crudnameRepository: Repository<CrudnameEntity>;
+    let crudnameService: CrudnameService;
 
     describe('find operations', () => {
 
@@ -28,6 +29,7 @@ describe('crudname repository', () => {
             }).compile();
 
             crudnameRepository = moduleRef.get(getRepositoryToken(CrudnameEntity));
+            crudnameService = moduleRef.get<CrudnameService>(CrudnameService);
 
             filterQuery = {
                 id: crudnameStub().id,
@@ -45,16 +47,22 @@ describe('crudname repository', () => {
             let responseData: CrudnameDTO[];
 
             beforeEach(async () => {
-                const queryParams = {page: 1, keyword: ''};
-                const QUERY_LIMIT = DATABASE_QUERY.QUERY.LIMIT_PER_QUERY;
-                const skip = UtilityFunctions.calculateDatabaseQueryOffset(queryParams.page, QUERY_LIMIT);
-                filterQuery = {
-                    where: [
-                        {id: Like('%' + queryParams.keyword + '%')},
-                        {name: Like('%' + queryParams.keyword + '%')},
-                    ],
-                    take: QUERY_LIMIT,
-                    skip,
+                const queryParams = () => {
+                    return {
+                        page: 1, keyword: '',
+                    };
+                };
+                const QUERY_LIMIT = queryFilters().QUERY.LIMIT_PER_QUERY;
+                const skip = UtilityFunctions.calculateDatabaseQueryOffset(queryParams().page, QUERY_LIMIT);
+                filterQuery = () => {
+                    return  {
+                        where: [
+                            {id: Like('%' + queryParams().keyword + '%')},
+                            {name: Like('%' + queryParams().keyword + '%')},
+                        ],
+                            take: QUERY_LIMIT,
+                            skip,
+                    };
                 };
                 jest.spyOn(crudnameRepository, 'find').mockResolvedValueOnce([crudnameStub() as any]);
                 responseData = await crudnameRepository.find(filterQuery);
