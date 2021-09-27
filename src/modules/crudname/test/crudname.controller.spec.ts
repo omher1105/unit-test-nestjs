@@ -4,7 +4,7 @@ import {Test} from '@nestjs/testing';
 import {crudnameStub, responseDataStub} from './stubs/crudname.stub';
 import {CreateCrudnameDTO, CrudnameDTO, ResponseData} from '../crudname.dto';
 import {INestApplication} from '@nestjs/common';
-import * as request from "supertest";
+import * as request from 'supertest';
 
 jest.mock('../crudname.service.ts');
 
@@ -37,7 +37,9 @@ describe('Crudname Controller', () => {
     });
 
     describe('findAll', () => {
-        const queryParams = {page: 1, keyword: ''};
+        const queryParams = () => {
+            return {page: 1, keyword: ''};
+        };
 
         test('/ (GET)', () => {
             return request(app.getHttpServer())
@@ -49,11 +51,11 @@ describe('Crudname Controller', () => {
             let responseData: CrudnameDTO[];
 
             beforeEach(async () => {
-                responseData = await crudnameController.getCrudname(queryParams);
+                responseData = await crudnameController.getCrudname(queryParams());
             });
 
             test('then it should call service', () => {
-                expect(crudnameService.getCrudname).toHaveBeenCalledWith(queryParams.page, queryParams.keyword);
+                expect(crudnameService.getCrudname).toHaveBeenCalledWith(queryParams().page, queryParams().keyword);
             });
 
             test('then it should return responseData', () => {

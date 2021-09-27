@@ -10,3 +10,12 @@ export const crudnameStub = (): CrudnameDTO => {
 export const responseDataStub: ResponseData = {
     response: 'OK',
 };
+
+export const queryFilters = (): any => {
+    return {
+        QUERY: {
+            LIMIT_PER_QUERY: 25,
+        },
+    };
+};
+
